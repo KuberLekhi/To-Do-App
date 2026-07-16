@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do — DevOps demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 500px; margin: 40px auto; }
+        li { margin: 6px 0; }
+        .done { text-decoration: line-through; color: #888; }
+        form.inline { display: inline; }
+    </style>
+</head>
+<body>
+    <h1>My tasks</h1>
+    <form method="POST" action="/add">
+        <input type="text" name="title" placeholder="New task" required>
+        <button type="submit">Add</button>
+    </form>
+    <ul>
+        {% for id, title, done in tasks %}
+        <li class="{{ 'done' if done else '' }}">
+            {{ title }}
+            {% if not done %}
+            <form class="inline" method="POST" action="/complete/{{ id }}">
+                <button type="submit">Done</button>
+            </form>
+            {% endif %}
+            <form class="inline" method="POST" action="/delete/{{ id }}">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
